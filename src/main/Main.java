@@ -8,15 +8,17 @@ import org.dmrc.model.CardTxn;
 import org.dmrc.model.SmartCard;
 import org.dmrc.model.Stations;
 import org.dmrc.model.Traveller;
+import org.dmrc.service.DMRCService;
+import org.dmrc.service.DMRCServiceImpl;
 
 public class Main {
-
+	
 	public static void main(String[] args) {
+		DMRCService service = new DMRCServiceImpl();
 		BasicConfigurator.configure();
 		Traveller t = new Traveller();
 		t.setId(1234);
 		t.setName("Columbus");
-		//System.out.println();
 		SmartCard card = new SmartCard();
 		card.setId(9999999999999l);
 		card.setBalance(145.87);
@@ -33,6 +35,10 @@ public class Main {
 		txn.setOutTime(txn.getInTime().plusMinutes(45));
 		txn.setFare(txn.getDistance()*FareStrategyFactory.getFareStrategy(txn.getInTime()).getFarePerStation());
 		System.out.println(txn);
+		
+		service.swipIn(card, Stations.A2,LocalDateTime.now());
+		
+		service.swipeOut(card, Stations.A9,LocalDateTime.now());
 		
 	}
 }
