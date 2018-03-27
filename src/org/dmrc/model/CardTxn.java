@@ -1,25 +1,22 @@
 package org.dmrc.model;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class CardTxn {
 	private Stations source;
 	private Stations destination;
 	private String txnId;
-	public String getTxnId() {
-		return txnId;
-	}
-
-	public void setTxnId(String txnId) {
-		this.txnId = txnId;
-	}
-
 	private int distance;
 	private double fare;
 	private LocalDateTime inTime;
 	private LocalDateTime outTime;
 	private SmartCard card;
 	
+	public CardTxn() {
+		txnId=UUID.randomUUID().toString();
+	}
+
 	public Stations getSource() {
 		return source;
 	}
@@ -76,8 +73,14 @@ public class CardTxn {
 		this.card = card;
 	}
 
+	public String getTxnId() {
+		return txnId;
+	}
+
 	@Override
 	public String toString() {
-		return this.getCard()+" | "+this.getTxnId()+" | "+this.getSource()+" | "+this.getDestination()+" | "+this.getDistance()+" | "+this.getInTime()+" | "+this.getOutTime()+" | "+this.getFare();
+		return this.getCard() + " | " + this.getTxnId() + " | " + this.getSource() + " | " + this.getDestination()
+				+ " | " + this.getDistance() + " | " + this.getInTime() + " | " + this.getOutTime() + " | "
+				+ this.getFare();
 	}
 }

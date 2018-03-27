@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 public class SmartCard {
 	private static final Logger logger= Logger.getLogger(SmartCard.class);
 	private Traveller traveller;
-	private long id;
+	private String id;
 	private double balance;
 	public Traveller getTraveller() {
 		return traveller;
@@ -18,10 +18,10 @@ public class SmartCard {
 	public void setTraveller(Traveller traveller) {
 		this.traveller = traveller;
 	}
-	public long getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public double getBalance() {
