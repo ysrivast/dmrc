@@ -3,6 +3,8 @@ package main;
 import java.time.LocalDateTime;
 
 import org.apache.log4j.BasicConfigurator;
+import org.dmrc.exception.InsufficientBalanceException;
+import org.dmrc.exception.MinimumBalanceException;
 import org.dmrc.fare.FareStrategyFactory;
 import org.dmrc.model.CardTxn;
 import org.dmrc.model.SmartCard;
@@ -21,7 +23,7 @@ public class Main {
 		t.setName("Columbus");
 		SmartCard card = new SmartCard();
 		card.setId(9999999999999l);
-		card.setBalance(145.87);
+		card.setBalance(71.87);
 		card.setTraveller(t);
 		System.out.println(card);
 		System.out.println(FareStrategyFactory.getFareStrategy(LocalDateTime.of(2017, 1, 13, 00, 34)).getClass());
@@ -36,9 +38,21 @@ public class Main {
 		txn.setFare(txn.getDistance()*FareStrategyFactory.getFareStrategy(txn.getInTime()).getFarePerStation());
 		System.out.println(txn);
 		
-		service.swipIn(card, Stations.A2,LocalDateTime.now());
-		
-		service.swipeOut(card, Stations.A9,LocalDateTime.now());
+		try {
+			service.swipeIn(card, Stations.A2,LocalDateTime.now());
+		} catch (MinimumBalanceException e1) {
+			System.err.println(e1.getMessage());
+		}
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		try {
+			service.swipeOut(card, Stations.A9,LocalDateTime.now());
+		} catch (InsufficientBalanceException e) {
+		System.err.println(e.getMessage());
+		}
 		
 	}
 }
